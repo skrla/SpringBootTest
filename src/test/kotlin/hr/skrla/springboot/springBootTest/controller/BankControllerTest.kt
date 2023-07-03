@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.MediaType
+import org.springframework.test.annotation.DirtiesContext
 import org.springframework.test.web.servlet.*
 
 @SpringBootTest
@@ -35,7 +36,7 @@ internal class BankControllerTest @Autowired constructor(
                 .andExpect {
                     status { isOk() }
                     content { contentType(MediaType.APPLICATION_JSON) }
-                    jsonPath("$[0].accountNumber") {
+                    jsonPath("$[0].account_number") {
                         value("1234")
                     }
                 }
@@ -60,7 +61,7 @@ internal class BankControllerTest @Autowired constructor(
                     status { isOk() }
                     content { contentType(MediaType.APPLICATION_JSON) }
                     jsonPath("$.trust") { value("3.14") }
-                    jsonPath("$.transactionFee") { value("17") }
+                    jsonPath("$.default_transaction_fee") { value("17") }
                 }
         }
 
@@ -188,6 +189,7 @@ internal class BankControllerTest @Autowired constructor(
     inner class DeleteExistingBank {
 
         @Test
+        @DirtiesContext
         fun `should delete the bank with the given account number`(){
             //give
             val accountNumber = 1234
